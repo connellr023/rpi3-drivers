@@ -18,7 +18,7 @@ CXXFLAGS = $(CFLAGS)
 LDFLAGS = -nostdlib -nostartfiles -ffreestanding -lgcc
 
 # Output library name
-LIB_NAME = lib-rpi3-drivers.a
+LIB_NAME = librpi3-drivers.a
 
 # Default target
 all: $(BUILD_DIR)/$(LIB_NAME)
