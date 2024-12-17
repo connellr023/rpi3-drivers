@@ -1,4 +1,4 @@
-# lib-rpi3-drivers
+# Raspberry Pi 3 Drivers
 
 > Submodule that includes some peripheral drivers for bare-metal Raspberry Pi 3.
 
