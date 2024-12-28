@@ -1,4 +1,4 @@
-#include "mbox.hpp"
+#include "../include/mbox.hpp"
 
 /* mailbox message buffer */
 alignas(16) volatile uint32_t mbox::buffer[36];
