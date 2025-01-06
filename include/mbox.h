@@ -27,6 +27,7 @@
 #define MBOX_HPP
 
 #include "gpio.h"
+#include <stdbool.h>
 #include <stdint.h>
 
 #define MBOX_REQUEST 0
@@ -42,7 +43,7 @@
 #define MBOX_CH_COUNT 7
 #define MBOX_CH_PROP 8
 
-/* tags */
+/* Tags */
 #define MBOX_TAG_GETSERIAL 0x10004
 #define MBOX_TAG_SETCLKRATE 0x38002
 #define MBOX_TAG_LAST 0
@@ -59,6 +60,6 @@
 #define MBOX_EMPTY 0x40000000
 
 extern volatile uint32_t mbox_buffer[36];
-int mbox_call(uint8_t ch);
+extern bool mbox_call(uint8_t ch);
 
 #endif // MBOX_HPP

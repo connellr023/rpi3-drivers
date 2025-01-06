@@ -39,13 +39,10 @@
 #define UART0_IMSC ((volatile uint32_t *)(MMIO_BASE + 0x00201038))
 #define UART0_ICR ((volatile uint32_t *)(MMIO_BASE + 0x00201044))
 
-/**
- * Set baud rate and characteristics (115200 8N1) and map to GPIO
- */
-void uart0_init();
+extern void uart0_init();
 
-void uart0_send(uint32_t c);
-void uart0_puts(const char *s);
-void uart0_hex(uint64_t d);
+extern void uart0_send(uint32_t c);
+extern void uart0_puts(const char *s);
+extern void uart0_hex(uint64_t d);
 
 #endif // UART0_HPP

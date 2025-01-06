@@ -6,6 +6,10 @@ bool is_rgb;
 
 uint8_t *lfb;
 
+uint32_t bgr_to_rgb(uint32_t color) {
+  return ((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16);
+}
+
 bool framebuffer_init() {
   mbox_buffer[0] = 35 * 4;
   mbox_buffer[1] = MBOX_REQUEST;

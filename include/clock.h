@@ -35,7 +35,7 @@
 #define RAND_MULTIPLIER 1103515245
 #define RAND_INCREMENT 12345
 
-uint64_t clock_current_micros();
-uint64_t clock_random_range(uint64_t min, uint64_t max);
+extern uint64_t clock_current_micros();
+extern uint64_t clock_random_range(uint64_t min, uint64_t max);
 
 #endif // CLOCK_HPP

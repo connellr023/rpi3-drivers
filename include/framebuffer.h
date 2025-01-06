@@ -40,15 +40,11 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-uint32_t bgr_to_rgb(uint32_t color) {
-  return ((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16);
-}
+extern bool framebuffer_init();
 
-bool framebuffer_init();
-
-void framebuffer_draw_pixel(uint32_t x, uint32_t y, uint32_t color);
-void framebuffer_fill_screen(uint32_t color);
-void framebuffer_draw_rect(int x1, int y1, int x2, int y2, uint32_t color,
-                           bool fill);
+extern void framebuffer_draw_pixel(uint32_t x, uint32_t y, uint32_t color);
+extern void framebuffer_fill_screen(uint32_t color);
+extern void framebuffer_draw_rect(int x1, int y1, int x2, int y2,
+                                  uint32_t color, bool fill);
 
 #endif
