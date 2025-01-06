@@ -23,46 +23,32 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef MBOX_HPP
-#define MBOX_HPP
+#ifndef FRAME_BUFFER_H
+#define FRAME_BUFFER_H
 
-#include "gpio.hpp"
+#define MBOX_TAG_SET_PHYS_WIDTH_HEIGHT 0x00048003
+#define MBOX_TAG_SET_VIRT_WIDTH_HEIGHT 0x00048004
+#define MBOX_TAG_SET_VIRT_OFFSET 0x00048004
+#define MBOX_TAG_SET_COLOR_DEPTH 0x00048005
+#define MBOX_TAG_SET_PIXEL_ORDER 0x00048006
+#define MBOX_TAG_ALLOC_FRAMEBUFFER 0x00040001
+#define MBOX_TAG_GET_PITCH 0x00040008
+
+#define PIXEL_ORDER_RGB 1
+#define PIXEL_ORDER_BGR 0
+
+#include <stdbool.h>
 #include <stdint.h>
 
-#define MBOX_REQUEST 0
+uint32_t bgr_to_rgb(uint32_t color) {
+  return ((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16);
+}
 
-/* channels */
-#define MBOX_CH_POWER 0
-#define MBOX_CH_FB 1
-#define MBOX_CH_VUART 2
-#define MBOX_CH_VCHIQ 3
-#define MBOX_CH_LEDS 4
-#define MBOX_CH_BTNS 5
-#define MBOX_CH_TOUCH 6
-#define MBOX_CH_COUNT 7
-#define MBOX_CH_PROP 8
+bool framebuffer_init();
 
-/* tags */
-#define MBOX_TAG_GETSERIAL 0x10004
-#define MBOX_TAG_SETCLKRATE 0x38002
-#define MBOX_TAG_LAST 0
+void framebuffer_draw_pixel(uint32_t x, uint32_t y, uint32_t color);
+void framebuffer_fill_screen(uint32_t color);
+void framebuffer_draw_rect(int x1, int y1, int x2, int y2, uint32_t color,
+                           bool fill);
 
-#define VIDEOCORE_MBOX (MMIO_BASE + 0x0000B880)
-#define MBOX_READ ((volatile uint32_t *)(VIDEOCORE_MBOX + 0x0))
-#define MBOX_POLL ((volatile uint32_t *)(VIDEOCORE_MBOX + 0x10))
-#define MBOX_SENDER ((volatile uint32_t *)(VIDEOCORE_MBOX + 0x14))
-#define MBOX_STATUS ((volatile uint32_t *)(VIDEOCORE_MBOX + 0x18))
-#define MBOX_CONFIG ((volatile uint32_t *)(VIDEOCORE_MBOX + 0x1C))
-#define MBOX_WRITE ((volatile uint32_t *)(VIDEOCORE_MBOX + 0x20))
-#define MBOX_RESPONSE 0x80000000
-#define MBOX_FULL 0x80000000
-#define MBOX_EMPTY 0x40000000
-
-namespace mbox {
-/* A properly aligned buffer */
-extern volatile uint32_t buffer[36];
-
-int call(uint8_t ch);
-} // namespace mbox
-
-#endif // MBOX_HPP
+#endif

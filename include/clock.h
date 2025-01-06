@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2018 bzt (bztsrc@github)
- * Modified 2024 by connellr023@github
+ * Copyright (C) 2024/2025 connellr023@github
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -23,31 +22,20 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef UART0_HPP
-#define UART0_HPP
+#ifndef CLOCK_HPP
+#define CLOCK_HPP
 
-#include "gpio.hpp"
+#include "gpio.h"
 #include <stdint.h>
 
-/* PL011 UART registers */
-#define UART0_DR ((volatile uint32_t *)(MMIO_BASE + 0x00201000))
-#define UART0_FR ((volatile uint32_t *)(MMIO_BASE + 0x00201018))
-#define UART0_IBRD ((volatile uint32_t *)(MMIO_BASE + 0x00201024))
-#define UART0_FBRD ((volatile uint32_t *)(MMIO_BASE + 0x00201028))
-#define UART0_LCRH ((volatile uint32_t *)(MMIO_BASE + 0x0020102C))
-#define UART0_CR ((volatile uint32_t *)(MMIO_BASE + 0x00201030))
-#define UART0_IMSC ((volatile uint32_t *)(MMIO_BASE + 0x00201038))
-#define UART0_ICR ((volatile uint32_t *)(MMIO_BASE + 0x00201044))
+#define TIMER_COUNTER_LOW ((volatile uint32_t *)(MMIO_BASE + 0x00003004))
+#define TIMER_COUNTER_HIGH ((volatile uint32_t *)(MMIO_BASE + 0x00003008))
 
-namespace uart0 {
-/**
- * Set baud rate and characteristics (115200 8N1) and map to GPIO
- */
-void init();
+#define RAND_MAX 32767
+#define RAND_MULTIPLIER 1103515245
+#define RAND_INCREMENT 12345
 
-void send(uint32_t c);
-void puts(const char *s);
-void hex(uint64_t d);
-} // namespace uart0
+uint64_t clock_current_micros();
+uint64_t clock_random_range(uint64_t min, uint64_t max);
 
-#endif // UART0_HPP
+#endif // CLOCK_HPP

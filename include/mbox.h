@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2024/2025 connellr023@github
+ * Copyright (C) 2018 bzt (bztsrc@github)
+ * Modified 2024 by connellr023@github
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -22,22 +23,42 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef CLOCK_HPP
-#define CLOCK_HPP
+#ifndef MBOX_HPP
+#define MBOX_HPP
 
-#include "gpio.hpp"
+#include "gpio.h"
 #include <stdint.h>
 
-#define TIMER_COUNTER_LOW ((volatile uint32_t *)(MMIO_BASE + 0x00003004))
-#define TIMER_COUNTER_HIGH ((volatile uint32_t *)(MMIO_BASE + 0x00003008))
+#define MBOX_REQUEST 0
 
-#define RAND_MAX 32767
-#define RAND_MULTIPLIER 1103515245
-#define RAND_INCREMENT 12345
+/* channels */
+#define MBOX_CH_POWER 0
+#define MBOX_CH_FB 1
+#define MBOX_CH_VUART 2
+#define MBOX_CH_VCHIQ 3
+#define MBOX_CH_LEDS 4
+#define MBOX_CH_BTNS 5
+#define MBOX_CH_TOUCH 6
+#define MBOX_CH_COUNT 7
+#define MBOX_CH_PROP 8
 
-namespace clock {
-uint64_t current_micros();
-uint64_t random_range(uint64_t min, uint64_t max);
-} // namespace clock
+/* tags */
+#define MBOX_TAG_GETSERIAL 0x10004
+#define MBOX_TAG_SETCLKRATE 0x38002
+#define MBOX_TAG_LAST 0
 
-#endif // CLOCK_HPP
+#define VIDEOCORE_MBOX (MMIO_BASE + 0x0000B880)
+#define MBOX_READ ((volatile uint32_t *)(VIDEOCORE_MBOX + 0x0))
+#define MBOX_POLL ((volatile uint32_t *)(VIDEOCORE_MBOX + 0x10))
+#define MBOX_SENDER ((volatile uint32_t *)(VIDEOCORE_MBOX + 0x14))
+#define MBOX_STATUS ((volatile uint32_t *)(VIDEOCORE_MBOX + 0x18))
+#define MBOX_CONFIG ((volatile uint32_t *)(VIDEOCORE_MBOX + 0x1C))
+#define MBOX_WRITE ((volatile uint32_t *)(VIDEOCORE_MBOX + 0x20))
+#define MBOX_RESPONSE 0x80000000
+#define MBOX_FULL 0x80000000
+#define MBOX_EMPTY 0x40000000
+
+extern volatile uint32_t mbox_buffer[36];
+int mbox_call(uint8_t ch);
+
+#endif // MBOX_HPP

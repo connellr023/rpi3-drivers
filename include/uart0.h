@@ -23,36 +23,29 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef FRAME_BUFFER_H
-#define FRAME_BUFFER_H
+#ifndef UART0_HPP
+#define UART0_HPP
 
-#define MBOX_TAG_SET_PHYS_WIDTH_HEIGHT 0x00048003
-#define MBOX_TAG_SET_VIRT_WIDTH_HEIGHT 0x00048004
-#define MBOX_TAG_SET_VIRT_OFFSET 0x00048004
-#define MBOX_TAG_SET_COLOR_DEPTH 0x00048005
-#define MBOX_TAG_SET_PIXEL_ORDER 0x00048006
-#define MBOX_TAG_ALLOC_FRAMEBUFFER 0x00040001
-#define MBOX_TAG_GET_PITCH 0x00040008
-
-#define PIXEL_ORDER_RGB 1
-#define PIXEL_ORDER_BGR 0
-
-#define FB_WIDTH 800
-#define FB_HEIGHT 480
-
+#include "gpio.h"
 #include <stdint.h>
 
-namespace framebuffer {
-constexpr uint32_t bgr_to_rgb(uint32_t color) {
-  return ((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16);
-}
+/* PL011 UART registers */
+#define UART0_DR ((volatile uint32_t *)(MMIO_BASE + 0x00201000))
+#define UART0_FR ((volatile uint32_t *)(MMIO_BASE + 0x00201018))
+#define UART0_IBRD ((volatile uint32_t *)(MMIO_BASE + 0x00201024))
+#define UART0_FBRD ((volatile uint32_t *)(MMIO_BASE + 0x00201028))
+#define UART0_LCRH ((volatile uint32_t *)(MMIO_BASE + 0x0020102C))
+#define UART0_CR ((volatile uint32_t *)(MMIO_BASE + 0x00201030))
+#define UART0_IMSC ((volatile uint32_t *)(MMIO_BASE + 0x00201038))
+#define UART0_ICR ((volatile uint32_t *)(MMIO_BASE + 0x00201044))
 
-bool init();
+/**
+ * Set baud rate and characteristics (115200 8N1) and map to GPIO
+ */
+void uart0_init();
 
-void draw_pixel(uint32_t x, uint32_t y, uint32_t color);
-void fill_screen(uint32_t color);
-void draw_rect(int x1, int y1, int x2, int y2, uint32_t color,
-               bool fill = true);
-} // namespace framebuffer
+void uart0_send(uint32_t c);
+void uart0_puts(const char *s);
+void uart0_hex(uint64_t d);
 
-#endif
+#endif // UART0_HPP

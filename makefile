@@ -28,11 +28,11 @@ $(BUILD_DIR)/$(LIB_NAME): $(OBJS)
 	@mkdir -p $(BUILD_DIR)
 	llvm-ar rcs $@ $^
 
-# Compile C++ source files
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
+# Compile C source files
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	@mkdir -p $(dir $@)
 	@echo "Compiling $< to $@"
-	clang++ --target=aarch64-elf $(CXXFLAGS) -c $< -o $@
+	clang --target=aarch64-elf $(CXXFLAGS) -c $< -o $@
 
 # Ensure build directory exists
 $(BUILD_DIR):

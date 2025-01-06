@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.pl": "prolog",
+    "clock.h": "c",
+    "mbox.h": "c",
+    "framebuffer.h": "c"
+  }
+}
